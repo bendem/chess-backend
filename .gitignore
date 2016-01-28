@@ -1,0 +1,4 @@
+build/
+include/
+include_tests/
+CMakeLists.txt

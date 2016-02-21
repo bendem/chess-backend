@@ -1,0 +1,75 @@
+\documentclass[a4paper, 12pt, titlepage]{article}
+
+\usepackage{fontspec}
+\usepackage[outputdir=build]{minted}
+\usepackage{hyperref}
+\usepackage[table]{xcolor}
+\usepackage[top=2.4cm, bottom=2.4cm, left=2cm, right=2cm]{geometry}
+\usepackage{tabu}
+\usepackage{enumitem}
+
+\author{bendem}
+\title{Chess backend - Documentation}
+
+% prevent widows and orphans (kinda meh, but really don't want them)
+\widowpenalty 10000
+\clubpenalty 10000
+
+% minted config
+\newminted{json}{linenos, frame=leftline, breaklines, numbersep=5pt}
+
+% tabu
+\tabulinesep = 1mm
+\extrarowsep = 1mm
+\definecolor{lightgray}{rgb}{0.85, 0.85, 0.85}
+\taburowcolors[2] 2{lightgray .. white}
+
+\newenvironment{CommandParameters}{
+    \begin{center}
+    \begin{tabu} to\linewidth {X[l, -1] | X[l, -1.5] | X[l, 3]}
+        Name
+            & Type
+            & Description \\ \hline \hline
+}{
+    \end{tabu}
+    \end{center}
+}
+
+\newenvironment{ResponseParameters}{
+    \begin{center}
+    \begin{tabu} to\linewidth {X[l, -1] | X[l, -1.5] | X[l, 3]}
+        Name
+            & Type
+            & Description \\ \hline \hline
+}{
+    \end{tabu}
+    \end{center}
+}
+
+\newenvironment{ResponseErrors}{
+    \begin{center}
+    \begin{tabu} to\linewidth {X[l, -1] | X[l, 2]}
+        Name
+            & Description \\ \hline \hline
+}{
+    \end{tabu}
+    \end{center}
+}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\input{parts/introduction.tex}
+\newpage
+
+\input{parts/proto00-summary.tex}
+\newpage
+
+\input{parts/serialization.tex}
+\newpage
+
+\end{document}

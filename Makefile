@@ -16,7 +16,7 @@ CXXFLAGS += -std=c++14 -pthread -I $(include_dir) -I src
 comp = $(CXX) $(CXXFLAGS)
 
 # .SILENT:
-.PHONY: all clean test run_tests debug
+.PHONY: all test run_tests clean docs debug
 
 all: dependencies $(build_dir) chess_backend
 
@@ -30,9 +30,6 @@ $(include_dir)/$(dep_json_name):
 
 $(build_dir):
 	mkdir $(build_dir)
-
-clean:
-	rm -rf $(build_dir)
 
 chess_backend: main.cpp $(obj_files)
 	$(comp) -o $(build_dir)/$@ $^
@@ -61,6 +58,13 @@ include_tests/$(dep_catch_name):
 	mkdir -p $(shell dirname $@)
 	echo "fetching $(dep_catch_name)..."
 	wget -q -O $@ $(catch_url)
+
+clean:
+	rm -rf $(build_dir)
+	$(MAKE) -C docs clean
+
+docs:
+	$(MAKE) -C docs
 
 debug:
 	echo $(src_files)

@@ -1,0 +1,21 @@
+\subsection{serialize}
+
+\subsubsection{Command parameters}
+
+\begin{CommandParameters}
+    \texttt{format}
+        & \texttt{enum \{ PGN, binary-64 \}}
+        & Either \texttt{PGN} or \texttt{binary-64} (\hyperref[serialization]{§ \ref{serialization}}). \\
+\end{CommandParameters}
+
+\subsubsection{Response parameters}
+
+\begin{ResponseParameters}
+    \texttt{value}
+        & \texttt{string}
+        & The current game state serialized using the specified format. \\
+\end{ResponseParameters}
+
+\subsubsection{Response errors}
+
+n/a

@@ -1,0 +1,29 @@
+\subsection{generate\_moves}
+
+\subsubsection{Command parameters}
+
+\begin{CommandParameters}
+    \texttt{x}
+        & \texttt{integer}
+        & The column of the piece to generate moves for. \\
+    \texttt{y}
+        & \texttt{integer}
+        & The row of the piece to generate moves for. \\
+\end{CommandParameters}
+
+\subsubsection{Response parameters}
+
+\begin{ResponseParameters}
+    \texttt{moves}
+        & \texttt{[\,\{ x: integer,\linebreak y: integer \}]\,}
+        & The list of moves available for the piece at the provided coordinates. \\
+\end{ResponseParameters}
+
+\subsubsection{Response errors}
+
+\begin{ResponseErrors}
+    \texttt{invalid\_coordinates}
+        & Provided coordinates are outside the board. \\
+    \texttt{no\_piece\_at\_coordinates}
+        & There is no piece on the board at the provided coordinates. \\
+\end{ResponseErrors}

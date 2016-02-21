@@ -1,0 +1,78 @@
+\section{Protocol summary}
+
+% TODO
+Describe stdin, stdout, json and shit...
+
+\subsection{Types}
+
+% TODO Speak about types
+
+Provided types are semantic and do not define their underlying storage. Enums values are specified like so \texttt{enum \{ value-1, ..., value-n \}} and are to be provided in commands as strings.
+
+\subsection{Command summary}
+
+All commands contain at least a \texttt{command} field.
+
+\begin{center}
+\begin{tabu} to\linewidth {X[l, -2] | X[l, 4] | X[l, -1] | X[c, -1]}
+    Command
+        & Description
+        & Parameters
+        & Read-only \\ \hline \hline
+    \texttt{reset}
+        & Resets all internal state.
+        &
+        & no \\
+    \texttt{unserialize}
+        & Initializes the application state with a saved game.
+        & format, value
+        & no \\
+    \texttt{serialize}
+        & Serializes the game state.
+        &
+        & yes \\
+    \texttt{generate\_moves}
+        & Generates all moves for a board piece.
+        & x, y
+        & yes \\
+    \texttt{check\_move}
+        & Checks if a move is valid.
+        & from\_x, from\_y, to\_x, to\_y
+        & yes \\
+    \texttt{move}
+        & Moves a piece on the board updating internal states.
+        & from\_x, from\_y, to\_x, to\_y
+        & yes \\
+\end{tabu}
+\end{center}
+
+\subsection{Errors}
+
+All responses contain at least a \texttt{status} field with either \texttt{ok} or \texttt{nok}. In case the \texttt{status} is \texttt{nok}, the response always contains an \texttt{error} field containing and error code (string) and an \texttt{error\_msg} field containing more information about the error.\\
+Aside from command specific errors, some errors should always be handled when reading a \texttt{nok} response:
+
+\begin{ResponseErrors}
+    \texttt{invalid\_json}
+        & Could not parse the provided json. \\
+    \texttt{invalid\_command}
+        & Invalid command provided. \\
+    \texttt{invalid\_type}
+        & The value of a field is invalid (invalid data type, value outside of enum bounds; etc.). \\
+    \texttt{missing\_field}
+        & A mandatory type was missing for the command. \\
+\end{ResponseErrors}
+
+\newpage
+\section{Protocol commands}
+
+\input{parts/proto01-reset.tex}
+\newpage
+\input{parts/proto02-unserialize.tex}
+\newpage
+\input{parts/proto03-serialize.tex}
+\newpage
+\input{parts/proto04-generate_moves.tex}
+\newpage
+\input{parts/proto05-check_move.tex}
+\newpage
+\input{parts/proto06-move.tex}

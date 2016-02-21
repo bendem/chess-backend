@@ -1,0 +1,30 @@
+\subsection{unserialize}
+
+\subsubsection{Command parameters}
+
+\begin{CommandParameters}
+    \texttt{format}
+        & \texttt{enum \{ PGN, binary-64 \}}
+        & Either \texttt{PGN} or \texttt{binary-64} (\hyperref[serialization]{§ \ref{serialization}}). \\
+    \texttt{value}
+        & \texttt{string}
+        & The value to deserialize using the specified format. \\
+    \texttt{lenient}
+        & \texttt{boolean?}
+        & If \texttt{true}, skips checking moves are valid (default: \texttt{false}). \\
+\end{CommandParameters}
+
+\subsubsection{Response parameters}
+
+n/a
+
+\subsubsection{Response errors}
+
+\begin{ResponseErrors}
+    \texttt{invalid\_format}
+        & Provided value could not be parsed. \\
+    \texttt{invalid\_data}
+        & Input data is incorrect. \\
+    \texttt{invalid\_move}
+        & Input data contains an invalid move. \\
+\end{ResponseErrors}

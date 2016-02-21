@@ -1,0 +1,36 @@
+\subsection{move}
+
+\subsubsection{Command parameters}
+
+\begin{CommandParameters}
+    \texttt{from\_x}
+        & \texttt{integer}
+        & The column of the piece to move. \\
+    \texttt{from\_y}
+        & \texttt{integer}
+        & The row of the piece to move. \\
+    \texttt{to\_x}
+        & \texttt{integer}
+        & The destination column. \\
+    \texttt{to\_y}
+        & \texttt{integer}
+        & The destination row. \\
+    \texttt{lenient}
+        & \texttt{boolean?}
+        & If \texttt{true}, skips checking if the move is valid (default: \texttt{false}). \\
+\end{CommandParameters}
+
+\subsubsection{Response parameters}
+
+\begin{ResponseParameters}
+    \texttt{can\_move}
+        & \texttt{boolean}
+        & Wether the provided move is valid or not. \\
+\end{ResponseParameters}
+
+\subsubsection{Response errors}
+
+\begin{ResponseErrors}
+    \texttt{invalid\_move}
+        & Provided move is invalid. \\
+\end{ResponseErrors}

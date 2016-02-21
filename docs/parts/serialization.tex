@@ -1,11 +1,33 @@
 \section{Serialization}
 \label{serialization}
 
-\texttt{chess\_backend} uses 2 main formats for serialization: PGN and binary-64.
+\texttt{chess\_backend} uses 2 main formats for serialization: \href{http://www.saremba.de/chessgml/standards/pgn/pgn-complete.htm}{PGN} (Portable Game Notation) and the custom binary-64 format.
 
-\begin{description}
-    \item[PGN] is a \href{http://www.saremba.de/chessgml/standards/pgn/pgn-complete.htm}{standard format} recognized by a bunch of tools out there.
-    \item[binary-64] is a custom format designed to keep track of most while being very memory efficient.
-\end{description}
+\subsection{binary-64 serialization}
 
-% TODO binary-64 spec
+The \texttt{binary-64} game format is a base64 encoded format separated in two parts.
+The header contains a serie of flags giving information about the state of the game:
+
+\begin{center}
+\begin{tabu} to\linewidth {X[c, -1] | X[l, 2]}
+    Bit & Description \\ \hline\hline
+    1 & Did the white king move? \\
+    2 & Did the black king move? \\
+    3 & Did the white king get checked? \\
+    4 & Did the black king get checked? \\
+    5 & Is it the whites turn? \\
+\end{tabu}
+\end{center}
+%
+The rest of the format represents the pieces on the board in any order encoded using chunks of 7 bits:
+
+\begin{center}
+\begin{tabu} to\linewidth {X[c, -1] | X[l, 2]}
+    Number of bits & Description \\ \hline \hline
+    1 & Color (\texttt{0}: white, \texttt{1}: black). \\
+    3 & Row of the piece. \\
+    3 & Column of the piece. \\
+\end{tabu}
+\end{center}
+%
+\emph{Note that the binary-64 format doesn't provide any validation since you only provide a single moment of the game and not all the moves taken to get there. As such, the rule stating that "the same board layout can only appear 3 times in the same game" cannot be checked.}

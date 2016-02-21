@@ -1,9 +1,16 @@
 #include <iostream>
+
+#include <unistd.h>
+
 #include "board.hpp"
-using namespace std;
 
 int main() {
     chess::board_piece piece(1, 3, chess::WHITE);
-    cout << "hue" << endl;
+
+    if(!isatty(STDIN_FILENO)) {
+        std::cout << "not a ";
+    }
+    std::cout << "tty" << std::endl;
+
     return 0;
 }

@@ -1,6 +1,6 @@
 #include "board.hpp"
 
-namespace game {
+namespace chess {
 
 board_column::board_column(board& board, uint8_t x) : _board(board), _x(x) {
 }

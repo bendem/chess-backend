@@ -5,7 +5,7 @@
 #include <cstdint>
 #include <cstring>
 
-namespace game {
+namespace chess {
 
 enum piece: uint8_t {
     NONE, PAWN, ROOK, KNIGHT, BISHOP, QUEEN, KING

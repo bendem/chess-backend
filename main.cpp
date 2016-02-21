@@ -3,7 +3,7 @@
 using namespace std;
 
 int main() {
-    game::board_piece piece(1, 3, game::WHITE);
+    chess::board_piece piece(1, 3, chess::WHITE);
     cout << "hue" << endl;
     return 0;
 }

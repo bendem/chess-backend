@@ -45,13 +45,19 @@ const std::map<enum command_type, std::vector<std::string>> required_parameters 
     { command_type::CHECK, { "from_x", "from_y", "to_x", "to_y" } },
 };
 
+
 enum class format {
     PNG, BASE64
 };
 
 const std::map<enum format, std::string> format_to_string = {
-    { format::PNG, "png" },
-    { format::BASE64, "base64" },
+    { format::PNG, "pgn" },
+    { format::BASE64, "base-64" },
+};
+
+const std::map<std::string, enum format> string_to_format = {
+    { "pgn", format::PNG },
+    { "base-64", format::BASE64 },
 };
 
 
@@ -76,7 +82,6 @@ const std::map<enum error_type, std::string> error_type_to_string = {
     { error_type::INVALID_TYPE, "invalid_type" },
     { error_type::MISSING_FIELD, "missing_field" },
 };
-
 
 
 struct command {

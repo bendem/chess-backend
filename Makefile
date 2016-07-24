@@ -35,20 +35,20 @@ chess_backend: main.cpp $(obj_files)
 	$(comp) -o $(build_dir)/$@ $^
 
 $(build_dir)/%.o: src/%.cpp src/%.hpp
-	mkdir -p $(shell dirname $@)
 	$(comp) -c -o $@ $<
 
 $(build_dir)/%.o: src/%.cpp
-	mkdir -p $(shell dirname $@)
 	$(comp) -c -o $@ $<
 
-test: include_tests/$(dep_catch_name) $(build_dir)/run_tests run_tests
+test: include_tests/$(dep_catch_name) $(build_dir)/tests $(build_dir)/run_tests run_tests
 
 $(build_dir)/run_tests: tests/tests.cpp $(test_obj_files) $(obj_files)
 	$(comp) -I include_tests -o $@ $^
 
+$(build_dir)/tests:
+	mkdir -p $@
+
 $(build_dir)/tests/%.o: tests/%.cpp
-	mkdir -p $(shell dirname $@)
 	$(comp) -c -I include_tests -o $@ $<
 
 run_tests: $(build_dir)/run_tests

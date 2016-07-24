@@ -131,8 +131,20 @@ private:
 };
 
 
+struct const_board_column {
+    const_board_column(const board& board, uint8_t x);
+
+    const piece_and_color& operator[](uint8_t y) const;
+
+private:
+    const board& _board;
+    uint8_t _x;
+};
+
+
 struct board {
     board_column operator[](uint8_t x);
+    const_board_column operator[](uint8_t x) const;
 
     bool operator==(const board& o) const {
         return &o == this || _pieces == o._pieces;
@@ -140,6 +152,7 @@ struct board {
 
 private:
     friend struct board_column;
+    friend struct const_board_column;
 
     std::array<std::array<piece_and_color, 8>, 8> _pieces;
 };

@@ -8,19 +8,19 @@
 namespace chess {
 
 
-enum piece: uint8_t {
+enum class piece: uint8_t {
     NONE, PAWN, ROOK, KNIGHT, BISHOP, QUEEN, KING
 };
 
 
-enum color: bool {
+enum class color: bool {
     WHITE = false, BLACK = true
 };
 
 
 struct board_piece {
     board_piece(uint8_t x, uint8_t y, enum color color)
-        : _x(x), _y(y), _color(color) {
+        : _x(x), _y(y), _color(static_cast<uint8_t>(color)) {
         assert(x < 8);
         assert(y < 8);
     }
@@ -79,7 +79,8 @@ private:
 
 struct piece_and_color {
     piece_and_color() : piece_and_color(piece::NONE, color::WHITE) {}
-    piece_and_color(enum piece piece, enum color color) : _piece(piece), _color(color) {}
+    piece_and_color(enum piece piece, enum color color)
+        : _piece(static_cast<uint8_t>(piece)), _color(static_cast<uint8_t>(color)) {}
 
     enum piece piece() const {
         return static_cast<enum piece>(_piece);
@@ -90,18 +91,18 @@ struct piece_and_color {
     }
 
     piece_and_color& piece(enum piece piece) {
-        this->_piece = piece;
+        this->_piece = static_cast<uint8_t>(piece);
         return *this;
     }
 
     piece_and_color& color(enum color color) {
-        this->_color = color;
+        this->_color = static_cast<uint8_t>(color);
         return *this;
     }
 
     piece_and_color& set(enum piece _piece, enum color _color) {
-        this->_piece = _piece;
-        this->_color = _color;
+        this->_piece = static_cast<uint8_t>(_piece);
+        this->_color = static_cast<uint8_t>(_color);
         return *this;
     }
 

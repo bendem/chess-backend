@@ -6,7 +6,6 @@
 #include <memory>
 #include <string>
 
-#include "board.hpp"
 #include "json.hpp"
 
 

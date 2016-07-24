@@ -2,7 +2,7 @@
 CMD=xelatex
 
 OUT=build
-FLAGS=-interaction batchmode -output-directory $(OUT) -shell-escape -etex
+FLAGS=-interaction batchmode -output-directory $(OUT) -shell-escape -etex -halt-on-error
 PDF=$(CMD) $(FLAGS)
 
 .PHONY: clean docs

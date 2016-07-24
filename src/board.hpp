@@ -7,31 +7,34 @@
 
 namespace chess {
 
+
 enum piece: uint8_t {
     NONE, PAWN, ROOK, KNIGHT, BISHOP, QUEEN, KING
 };
+
 
 enum color: bool {
     WHITE = false, BLACK = true
 };
 
+
 struct board_piece {
-    board_piece(uint8_t x, uint8_t y, color color)
+    board_piece(uint8_t x, uint8_t y, enum color color)
         : _x(x), _y(y), _color(color) {
         assert(x < 8);
         assert(y < 8);
     }
 
-    uint8_t get_x() const {
+    uint8_t x() const {
         return _x;
     }
 
-    uint8_t get_y() const {
+    uint8_t y() const {
         return _y;
     }
 
-    color get_color() const {
-        return static_cast<color>(_color);
+    enum color color() const {
+        return static_cast<enum color>(_color);
     }
 
 private:
@@ -39,6 +42,7 @@ private:
     uint8_t _y: 3;
     uint8_t _color: 1;
 };
+
 
 struct move {
     move(uint8_t from_x, uint8_t from_y, uint8_t to_x, uint8_t to_y)
@@ -49,19 +53,19 @@ struct move {
         assert(to_y < 8);
     }
 
-    uint8_t get_from_x() const {
+    uint8_t from_x() const {
         return _from_x;
     }
 
-    uint8_t get_from_y() const {
+    uint8_t from_y() const {
         return _from_y;
     }
 
-    uint8_t get_to_x() const {
+    uint8_t to_x() const {
         return _to_x;
     }
 
-    uint8_t get_to_y() const {
+    uint8_t to_y() const {
         return _to_y;
     }
 
@@ -72,18 +76,43 @@ private:
     uint8_t _to_y: 3;
 };
 
-struct piece_and_color {
-    enum piece piece;
-    enum color color;
 
-    piece_and_color& set(enum piece _piece, enum color _color) {
-        piece = _piece;
-        color = _color;
+struct piece_and_color {
+    piece_and_color() : piece_and_color(piece::NONE, color::WHITE) {}
+    piece_and_color(enum piece piece, enum color color) : _piece(piece), _color(color) {}
+
+    enum piece piece() const {
+        return static_cast<enum piece>(_piece);
+    }
+
+    enum color color() const {
+        return static_cast<enum color>(_color);
+    }
+
+    piece_and_color& piece(enum piece piece) {
+        this->_piece = piece;
         return *this;
     }
+
+    piece_and_color& color(enum color color) {
+        this->_color = color;
+        return *this;
+    }
+
+    piece_and_color& set(enum piece _piece, enum color _color) {
+        this->_piece = _piece;
+        this->_color = _color;
+        return *this;
+    }
+
+private:
+    uint8_t _piece: 4;
+    uint8_t _color: 1;
 };
 
+
 struct board;
+
 
 struct board_column {
     board_column(board& board, uint8_t x);
@@ -95,9 +124,8 @@ private:
     uint8_t _x;
 };
 
-struct board {
-    board();
 
+struct board {
     board_column operator[](uint8_t x);
 
 private:
@@ -105,6 +133,7 @@ private:
 
     piece_and_color _pieces[8][8];
 };
+
 
 }
 

@@ -1,6 +1,7 @@
 #ifndef CHESS_BACKEND_BOARD_HPP
 #define CHESS_BACKEND_BOARD_HPP
 
+#include <array>
 #include <cassert>
 #include <cstdint>
 #include <cstring>
@@ -106,6 +107,10 @@ struct piece_and_color {
         return *this;
     }
 
+    bool operator==(const piece_and_color& o) const {
+        return &o == this || _piece == o._piece || _color == o._color;
+    }
+
 private:
     uint8_t _piece: 4;
     uint8_t _color: 1;
@@ -129,10 +134,14 @@ private:
 struct board {
     board_column operator[](uint8_t x);
 
+    bool operator==(const board& o) const {
+        return &o == this || _pieces == o._pieces;
+    }
+
 private:
     friend struct board_column;
 
-    piece_and_color _pieces[8][8];
+    std::array<std::array<piece_and_color, 8>, 8> _pieces;
 };
 
 

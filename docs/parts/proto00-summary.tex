@@ -22,27 +22,31 @@ All commands contain at least a \texttt{command} field.
     \texttt{reset}
         & Resets all internal state.
         &
-        & no \\
+        & \faClose{} \\
     \texttt{unserialize}
         & Initializes the application state with a saved game.
         & format, value
-        & no \\
+        & \faClose{} \\
     \texttt{serialize}
         & Serializes the game state.
-        &
-        & yes \\
+        & format
+        & \faCheck{} \\
     \texttt{generate\_moves}
         & Generates all moves for a board piece.
         & x, y
-        & yes \\
+        & \faCheck{} \\
     \texttt{check\_move}
         & Checks if a move is valid.
         & from\_x, from\_y, to\_x, to\_y
-        & yes \\
+        & \faCheck{} \\
     \texttt{move}
         & Moves a piece on the board updating internal states.
         & from\_x, from\_y, to\_x, to\_y
-        & yes \\
+        & \faClose{} \\
+    \texttt{exit}
+        & Exits the program.
+        &
+        & \faClose{} \\
 \end{tabu}
 \end{center}
 
@@ -76,3 +80,5 @@ Aside from command specific errors, some errors should always be handled when re
 \input{parts/proto05-check_move.tex}
 \newpage
 \input{parts/proto06-move.tex}
+\newpage
+\input{parts/proto07-exit.tex}

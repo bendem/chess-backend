@@ -11,7 +11,7 @@ dep_catch_url = https://raw.githubusercontent.com/philsquared/Catch/3b4edd7a4849
 dep_catch_name := $(shell basename $(dep_catch_url))
 
 CXX ?= g++
-CXXFLAGS += -std=c++14 -pthread -I $(include_dir) -I src
+CXXFLAGS += -Wall -pedantic -std=c++14 -pthread -I $(include_dir) -I src
 
 comp = $(CXX) $(CXXFLAGS)
 

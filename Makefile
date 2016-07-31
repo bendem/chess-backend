@@ -5,9 +5,9 @@ obj_files := $(src_files:src/%.cpp=$(build_dir)/%.o)
 test_src_files := $(filter-out tests/tests.cpp,$(wildcard tests/*.cpp))
 test_obj_files := $(test_src_files:%.cpp=$(build_dir)/%.o)
 
-dep_json_url = https://raw.githubusercontent.com/nlohmann/json/49dc2dff68abb4bbf1f3ee8b0327de7d0a673d16/src/json.hpp
+dep_json_url = https://raw.githubusercontent.com/nlohmann/json/a05df038cd952b6e586e40526df061d73059fb07/src/json.hpp
 dep_json_name := $(shell basename $(dep_json_url))
-dep_catch_url = https://raw.githubusercontent.com/philsquared/Catch/3b4edd7a4849e05fd9d006bf652190729a32906f/single_include/catch.hpp
+dep_catch_url = https://raw.githubusercontent.com/philsquared/Catch/35f510545d55a831372d3113747bf1314ff4f2ef/single_include/catch.hpp
 dep_catch_name := $(shell basename $(dep_catch_url))
 
 CXX ?= g++
@@ -56,7 +56,6 @@ run_tests: $(build_dir)/run_tests
 
 include_tests/$(dep_catch_name):
 	mkdir -p $(shell dirname $@)
-	echo "fetching $(dep_catch_name)..."
 	wget -q -O $@ $(dep_catch_url)
 
 clean:

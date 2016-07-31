@@ -29,6 +29,7 @@ void init(protocol& proto) {
                 json_commands.emplace_back(json {
                     { "name", registration.first },
                     { "description", registration.second.description },
+                    { "required_fields", registration.second.required_fields },
                     { "filters",  json_filters },
                 });
             }

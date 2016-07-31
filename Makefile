@@ -18,7 +18,7 @@ comp = $(CXX) $(CXXFLAGS)
 # .SILENT:
 .PHONY: all test run_tests clean docs debug
 
-all: dependencies $(build_dir) chess_backend
+all: dependencies $(build_dir) $(build_dir)/chess_backend
 
 dependencies: $(include_dir) $(include_dir)/$(dep_json_name)
 
@@ -31,8 +31,8 @@ $(include_dir)/$(dep_json_name):
 $(build_dir):
 	mkdir $(build_dir)
 
-chess_backend: main.cpp $(obj_files)
-	$(comp) -o $(build_dir)/$@ $^
+$(build_dir)/chess_backend: main.cpp $(obj_files)
+	$(comp) -o $@ $^
 
 $(build_dir)/%.o: src/%.cpp src/%.hpp
 	$(comp) -c -o $@ $<

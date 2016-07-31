@@ -5,105 +5,56 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <unordered_map>
+#include <unordered_set>
 
+#include "board.hpp"
 #include "json.hpp"
+#include "commands.hpp"
 
 
 namespace chess {
 
 using nlohmann::json;
 
-enum class command_type {
-    INVALID, RESET, UNSERIALIZE, SERIALIZE, GENERATE, MOVE, CHECK, EXIT
+struct filter {
+    std::string field;
+    std::string error;
+    std::string description;
+    std::function<bool(const json&)> predicate;
 };
 
-const std::map<enum command_type, std::string> command_type_to_string = {
-    { command_type::RESET, "reset" },
-    { command_type::UNSERIALIZE, "unserialize" },
-    { command_type::SERIALIZE, "serialize" },
-    { command_type::GENERATE, "generate" },
-    { command_type::MOVE, "move" },
-    { command_type::CHECK, "check" },
-    { command_type::EXIT, "exit" },
+struct command_registration {
+    std::string name;
+    std::string description;
+    std::vector<std::string> required_fields;
+    std::vector<filter> filters;
+    std::function<json(const json&, board&)> action;
 };
 
-const std::map<std::string, enum command_type> string_to_command_type = {
-    { "reset", command_type::RESET },
-    { "unserialize", command_type::UNSERIALIZE },
-    { "serialize", command_type::SERIALIZE },
-    { "generate", command_type::GENERATE },
-    { "move", command_type::MOVE },
-    { "check", command_type::CHECK },
-    { "exit", command_type::EXIT },
-};
-
-const std::map<enum command_type, std::vector<std::string>> required_parameters = {
-    { command_type::UNSERIALIZE, { "format", "value" } },
-    { command_type::SERIALIZE, { "format" } },
-    { command_type::GENERATE, { "x", "y" } },
-    { command_type::MOVE, { "from_x", "from_y", "to_x", "to_y" } },
-    { command_type::CHECK, { "from_x", "from_y", "to_x", "to_y" } },
-};
-
-
-enum class format {
-    PNG, BASE64
-};
-
-const std::map<enum format, std::string> format_to_string = {
-    { format::PNG, "pgn" },
-    { format::BASE64, "base-64" },
-};
-
-const std::map<std::string, enum format> string_to_format = {
-    { "pgn", format::PNG },
-    { "base-64", format::BASE64 },
-};
-
-
-enum class response_status {
-    OK, NOK
-};
-
-const std::map<enum response_status, std::string> response_status_to_string = {
-    { response_status::OK, "ok" },
-    { response_status::NOK, "nok" },
-};
-
-
-enum class error_type {
-    NONE, INVALID_JSON, INVALID_COMMAND, INVALID_TYPE, MISSING_FIELD
-};
-
-const std::map<enum error_type, std::string> error_type_to_string = {
-    { error_type::NONE, "none" },
-    { error_type::INVALID_JSON, "invalid_json" },
-    { error_type::INVALID_COMMAND, "invalid_command" },
-    { error_type::INVALID_TYPE, "invalid_type" },
-    { error_type::MISSING_FIELD, "missing_field" },
-};
-
-
-struct command {
-    const enum command_type command_type;
-    const nlohmann::json json;
-
-    command() : command_type(command_type::INVALID), json() {}
-    command(enum command_type command_type, const nlohmann::json& json)
-        : command_type(command_type), json(json) {}
-};
+filter range_filter(const std::string& name, int from, int to);
+filter type_filter(const std::string& name, const std::string& type);
+filter any_filter(const std::string& name, const std::unordered_set<std::string>& values);
 
 
 class protocol {
+    typedef std::vector<std::pair<std::string, command_registration>> command_map;
     std::istream& input;
     std::ostream& output;
+    bool debug;
+    command_map commands;
 
-    command error(error_type, const std::string& error_msg);
+    bool error(const std::string&, const std::string&);
 
 public:
-    protocol(std::istream& is, std::ostream& os) : input(is), output(os) {}
+    protocol(std::istream& is, std::ostream& os, bool debug = false) : input(is), output(os), debug(debug) {
+        init(*this);
+    }
 
-    command next_command();
+    protocol& new_registration(const command_registration&);
+    const command_map& registrations() const;
+
+    bool handle_next_command(board&);
 
 };
 

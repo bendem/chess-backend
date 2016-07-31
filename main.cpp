@@ -5,24 +5,24 @@
 #include "commands.hpp"
 #include "protocol.hpp"
 
-int main() {
+using namespace std::string_literals;
+
+int main(int argc, char** argv) {
+    bool debug = argc > 1 && argv[1] == "-v"s;
+    if(debug) {
+        std::cout << "debug active" << std::endl;
+    }
+
     chess::board board = chess::starting_board();
-    chess::protocol proto(std::cin, std::cout);
-    chess::command_handler command_handler;
+    chess::protocol proto(std::cin, std::cout, debug);
 
-    chess::dump_board(board);
-
-    while(true) {
-        auto command = proto.next_command();
-        if(command.command_type == chess::command_type::INVALID) {
-            continue;
+    do {
+        if(debug) {
+            chess::dump_board(board);
         }
-        if(command.command_type == chess::command_type::EXIT) {
-            break;
-        }
+    } while(proto.handle_next_command(board));
 
-
-        command_handler.handle(command, board);
+    if(debug) {
         chess::dump_board(board);
     }
 

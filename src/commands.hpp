@@ -2,16 +2,12 @@
 #define CHESS_BACKEND_COMMANDS_HPP
 
 #include "board.hpp"
-#include "protocol.hpp"
 
 namespace chess {
 
+class protocol;
 
-class command_handler {
-public:
-    void handle(const command& command, board& board);
-};
-
+void init(protocol& proto);
 
 }
 

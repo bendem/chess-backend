@@ -99,7 +99,7 @@ bool protocol::handle_next_command(board& b) {
         return value.first == command_name;
     });
     if(it_command == commands.end()) {
-        return error("invalid_command", "'command' field contains an invalid value");
+        return error("invalid_command", "No command '"s + command_name + "' found, try 'list_commands' to get a list of the commands available");
     }
 
     auto command = it_command->second;
